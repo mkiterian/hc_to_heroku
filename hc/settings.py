@@ -82,10 +82,17 @@ TEST_RUNNER = 'hc.api.tests.CustomRunner'
 # Default database engine is SQLite. So one can just check out code,
 # install requirements.txt and do manage.py runserver and it works
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': './hc.sqlite',
+    # }
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': './hc.sqlite',
-    }
+            'ENGINE': 'django.db.backends.postgresql',
+            'USER': 'postgres',
+            'NAME': 'hc',
+            'TEST': {'CHARSET': 'UTF8'}
+        }
 }
 
 # You can switch database engine to postgres or mysql using environment
@@ -167,6 +174,9 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 #End for heroku
+
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
 
 if os.path.exists(os.path.join(BASE_DIR, "hc/local_settings.py")):
     from .local_settings import *
